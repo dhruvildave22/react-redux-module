@@ -1,0 +1,30 @@
+{
+  "users": [
+    {
+      "username": "luzewed",
+      "email": "togi@mailinator.com",
+      "gender": "male",
+      "hobbies": [
+        "Writing",
+        "Coding",
+        "Reading"
+      ],
+      "review": 84,
+      "notificaiton": true,
+      "id": 1
+    },
+    {
+      "username": "givigowixa",
+      "email": "qusa@mailinator.com",
+      "gender": "female",
+      "hobbies": [
+        "Coding",
+        "Writing",
+        "Singing"
+      ],
+      "review": 82,
+      "notificaiton": true,
+      "id": 2
+    }
+  ]
+}
