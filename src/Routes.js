@@ -6,10 +6,6 @@ import {
 } from 'react-router-dom'
 import UsersList from "./components/users/UsersList"
 import { Layout } from 'antd';
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined
-} from '@ant-design/icons';
 import SideNav from "./components/layouts/SideNav";
 import NewUser from "./components/users/NewUser";
 const { Header, Sider, Content } = Layout;

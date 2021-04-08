@@ -1,35 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Row, Col, Typography, Input, Form, Button,
-  Radio, Switch, Slider, Select, message
+  Radio, Switch, Slider, Select, notification
 } from 'antd';
-import axios from 'axios';
 import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { createUser, createUserClear } from '../../actions/userActions';
 const { Title } = Typography;
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 };
 const NewUser = () => {
-  const [loading, setLoading] = useState(false);
   const history = useHistory();
+
+  const user = useSelector(state => state.user.newUser)
+  const error = useSelector(state => state.user.error)
+  const loading = useSelector(state => state.user.loading)
+
+
+  const dispatch = useDispatch()
+
   const handleSubmit = (values) => {
-    setLoading(true);
-    axios.post(`http://localhost:5000/users`,
-      values
-    )
-      .then(res => {
-        console.log("success")
-        setLoading(false);
-        message.success('User Added Successfully!');
-        history.push('/users');
-      })
-      .catch(error => {
-        console.log(error)
-        setLoading(false);
-        // message.error(error);
-      })
+    dispatch(createUser(values));
   }
+
+  useEffect(() => {
+    if (user !== null) {
+      dispatch(createUserClear());
+      notification.success({
+        message: `${user.username} created successfully`,
+      });
+      history.push('/users');
+    }
+    if (error !== null) {
+      notification.success({
+        message: `something went wrong`,
+      });
+    }
+
+  }, [user, error]);
+
   return (
     <div>
       <Row gutter={[40, 0]}>

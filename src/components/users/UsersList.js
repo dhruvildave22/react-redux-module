@@ -1,17 +1,29 @@
-import React, {useEffect, useState} from 'react';
-import {Table, Row, Col, Button, Typography} from 'antd';
-import {useHistory} from 'react-router';
-import axios from 'axios';
-const {Title} = Typography;
-const List = () => {
+import React, { useEffect, useRef, useState } from 'react';
+import { Table, Row, Col, Button, Typography } from 'antd';
+import { useHistory } from 'react-router';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from '../../actions/userActions';
+import ErrorDisplay from '../shared/ErrorDisplay';
+const { Title } = Typography;
+
+const List = (props) => {
   const history = useHistory();
   const [allData, setAllData] = useState([]);
-useEffect(() => {
-    axios.get(`http://localhost:5000/users`).then(res => {
-      setAllData(res.data);
-    });
-  }, []);
-const columns = [
+  const dispatch = useDispatch()
+
+  const { loading, users, error } = props
+
+  const prevLoading = usePrevious(loading);
+
+
+  useEffect(() => {
+    props.dispatch(fetchUsers());
+    if (prevLoading && prevLoading.loading !== loading && loading) {
+      setAllData(users);
+    }
+  }, [dispatch])
+
+  const columns = [
     {
       title: 'Username',
       dataIndex: 'username',
@@ -29,39 +41,60 @@ const columns = [
       dataIndex: 'review'
     },
   ];
-const data = [{
+
+  const data = [{
   }];
-allData.map((user) => {
+  allData.map((user) => {
     data.push({
-     key: user.id,
-     username: user.username,
-     email: user.email,
-     gender: user.gender,
-     review: user.review + '%',
-   })
-   return data;
- });
-const handleClick = () => {
+      key: user.id,
+      username: user.username,
+      email: user.email,
+      gender: user.gender,
+      review: user.review + '%',
+    })
+    return data;
+  });
+  const handleClick = () => {
     history.push('/new-user')
   }
-return (
-    <div>
+
+  if (error !== null) {
+    return <ErrorDisplay error={error} />
+  } else {
+    return (
+      <div>
         <Row gutter={[40, 0]}>
           <Col span={18}>
             <Title level={2}>
-            User List
+              User List
             </Title>
-            </Col>
+          </Col>
           <Col span={6}>
-          <Button onClick={handleClick} block>Add User</Button>
+            <Button onClick={handleClick} block>Add User</Button>
           </Col>
         </Row>
         <Row gutter={[40, 0]}>
-        <Col span={24}>
-        <Table columns={columns} dataSource={data} />
-        </Col>
+          <Col span={24}>
+            <Table columns={columns} dataSource={data} />
+          </Col>
         </Row>
-    </div>
-  );
+      </div>
+    )
+  }
 }
-export default List;
+
+const mapStateToProps = state => ({
+  loading: state.user.loading,
+  error: state.user.error,
+  users: state.user.items
+});
+
+export default connect(mapStateToProps)(List);
+
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}

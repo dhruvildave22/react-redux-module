@@ -2,10 +2,7 @@ import React from 'react';
 import { Menu } from 'antd';
 import {
   UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
 } from '@ant-design/icons';
-import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 class SideNav extends React.Component {
   
@@ -20,7 +17,7 @@ class SideNav extends React.Component {
     return (
       <div>
         <div style={{ height: "1px", background: "rgba(255, 255, 255, 0.2)", margin: "16px" }}></div>
-        <Menu theme="dark" mode="inline"
+        <Menu theme="dark"
           defaultSelectedKeys={[this.getActivePathname()]}
           defaultOpenKeys={this.getActiveParentMenu()}
           onSelect={this.props.closeSidebar}

@@ -14,17 +14,28 @@
       "id": 1
     },
     {
-      "username": "givigowixa",
-      "email": "qusa@mailinator.com",
+      "username": "vitunyk",
+      "email": "tuwybat@mailinator.com",
       "gender": "female",
       "hobbies": [
-        "Coding",
         "Writing",
+        "Coding",
         "Singing"
       ],
-      "review": 82,
+      "review": 75,
       "notificaiton": true,
       "id": 2
+    },
+    {
+      "username": "cubik",
+      "email": "fucujoj@mailinator.com",
+      "gender": "female",
+      "hobbies": [
+        "Writing"
+      ],
+      "review": 40,
+      "notificaiton": true,
+      "id": 3
     }
   ]
 }
